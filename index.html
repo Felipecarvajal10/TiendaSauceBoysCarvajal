@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <link rel="stylesheet" href="./style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tienda Sauce Boys</title>
+  </head>
+  <body>
+    <div id="carrito-seccion" style="display: none">
+      <h2>Carrito</h2>
+      <ul id="carrito-lista"></ul>
+      <p>Total: $<span id="carrito-total">0</span></p>
+      <button id="vaciar-carrito-btn">Vaciar Carrito</button>
+      <button id="pagar-btn">Pagar</button>
+      <div id="mensaje-agradecimiento" style="display: none">
+        ¡Gracias por tu compra!
+      </div>
+    </div>
+    <div id="carrito-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Productos en el Carrito</h2>
+        <ul id="carrito-modal-lista"></ul>
+      </div>
+    </div>
+    <div class="content">
+      <h1>Bienvenido a la tienda de Sauce Boys</h1>
+      <p id="carrito-cantidad">Carrito: 0 productos</p>
+      <button id="ver-carrito-btn">Ver Carrito</button>
+      <div id="mensaje-exito" style="display: none">
+        Producto añadido al carrito con éxito.
+      </div>
+      <ul id="listado-productos"></ul>
+      <div id="detalles-producto" style="display: none">
+        <h2 id="detalle-nombre"></h2>
+        <p id="detalle-precio"></p>
+      </div>
+    </div>
+    <script src="./main.js"></script>
+  </body>
+</html>
