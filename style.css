@@ -150,9 +150,6 @@ h1 {
   object-fit: cover;
 }
 
-.content {
-}
-
 /* Pantallas pequeñas */
 @media screen and (max-width: 480px) {
   #carrito-seccion {
