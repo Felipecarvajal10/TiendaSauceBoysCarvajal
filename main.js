@@ -1,9 +1,9 @@
 const productos = [
   { id: 1, name: "Gorra", price: 30, imagen: "gorra.jpeg" },
   { id: 2, name: "Mochila", price: 80, imagen: "mochila.jpeg" },
-  { id: 3, name: "Pañuelo", price: 40, imagen: "Pañuelo.jpeg" },
+  { id: 3, name: "Pañuelo", price: 40, imagen: "pañuelo.jpeg" },
   { id: 4, name: "Camiseta", price: 25, imagen: "camiseta_negra.jpeg" },
-  { id: 5, name: "Cuaderno", price: 10, imagen: "Cuaderno.jpeg" },
+  { id: 5, name: "Cuaderno", price: 10, imagen: "cuaderno.jpeg" },
   { id: 6, name: "Buzo", price: 70, imagen: "hoodie_negro.jpeg" },
   { id: 7, name: "Cuadro", price: 40, imagen: "cuadro.png" },
   { id: 8, name: "Gorro", price: 30, imagen: "gorro.jpeg" },
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Añadir la imagen
     const imagenProducto = document.createElement("img");
-    imagenProducto.src = `Assets/${producto.imagen}`;
+    imagenProducto.src = `assets/${producto.imagen}`;
     imagenProducto.alt = producto.name;
     card.appendChild(imagenProducto);
 
