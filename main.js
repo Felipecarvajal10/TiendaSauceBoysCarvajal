@@ -1,15 +1,12 @@
-// id, name, price
 const productos = [
-  { id: 1, name: "Gorra", price: 30 },
-  { id: 2, name: "Mochila", price: 80 },
-  { id: 3, name: "Zapatillas", price: 150 },
-  { id: 4, name: "Camiseta", price: 25 },
-  { id: 5, name: "Bufanda", price: 30 },
-  { id: 6, name: "Guantes", price: 15 },
-  { id: 7, name: "Buzo", price: 70 },
-  { id: 8, name: "Calcetines", price: 10 },
-  { id: 9, name: "Chaqueta", price: 100 },
-  { id: 10, name: "Gorro", price: 30 },
+  { id: 1, name: "Gorra", price: 30, imagen: "gorra.jpeg" },
+  { id: 2, name: "Mochila", price: 80, imagen: "mochila.jpeg" },
+  { id: 3, name: "Pañuelo", price: 40, imagen: "Pañuelo.jpeg" },
+  { id: 4, name: "Camiseta", price: 25, imagen: "camiseta_negra.jpeg" },
+  { id: 5, name: "Cuaderno", price: 10, imagen: "Cuaderno.jpeg" },
+  { id: 6, name: "Buzo", price: 70, imagen: "hoodie_negro.jpeg" },
+  { id: 7, name: "Cuadro", price: 40, imagen: "cuadro.png" },
+  { id: 8, name: "Gorro", price: 30, imagen: "gorro.jpeg" },
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -30,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let carrito = parseInt(localStorage.getItem("carrito")) || 0;
   let productosEnCarrito =
     JSON.parse(localStorage.getItem("productosEnCarrito")) || {};
+  let precioTotal = parseFloat(localStorage.getItem("precioTotal")) || 0;
 
   actualizarCarrito();
 
@@ -37,8 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement("div");
     card.className = "card-producto";
 
+    // Añadir la imagen
     const imagenProducto = document.createElement("img");
-    imagenProducto.src = `ruta/a/tu/imagen/${producto.id}.jpg`;
+    imagenProducto.src = `Assets/${producto.imagen}`;
     imagenProducto.alt = producto.name;
     card.appendChild(imagenProducto);
 
@@ -60,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         mensajeExito.style.display = "block";
         setTimeout(() => {
           mensajeExito.style.display = "none";
-        }, 3000);
+        }, 2000);
 
         carrito++;
         if (productosEnCarrito[producto.id]) {
@@ -69,11 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
           productosEnCarrito[producto.id] = { ...producto, cantidad: 1 };
         }
 
+        // Actualizar precio total
+        precioTotal += producto.price;
+
         localStorage.setItem("carrito", carrito);
         localStorage.setItem(
           "productosEnCarrito",
           JSON.stringify(productosEnCarrito)
         );
+        localStorage.setItem("precioTotal", precioTotal.toFixed(2));
 
         actualizarCarrito();
       };
@@ -100,14 +103,18 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       mensajeAgradecimiento.style.display = "none";
       vaciarCarrito();
-    }, 3000); // Oculta el mensaje después de 3 segundos
+    }, 2000); // Oculta el mensaje después de x segundos
   });
 
   function vaciarCarrito() {
     carrito = 0;
     productosEnCarrito = {};
+    precioTotal = 0;
+
     localStorage.removeItem("carrito");
     localStorage.removeItem("productosEnCarrito");
+    localStorage.removeItem("precioTotal");
+
     actualizarCarrito();
   }
 
@@ -125,6 +132,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function actualizarCarrito() {
     carritoCantidad.textContent = `Carrito: ${carrito} productos`;
+
+    // Actualizar el precio total en la interfaz
+    const carritoTotalElement = document.getElementById("carrito-total");
+    carritoTotalElement.textContent = precioTotal.toFixed(2);
 
     if (carrito > 0) {
       carritoSeccion.style.display = "block";

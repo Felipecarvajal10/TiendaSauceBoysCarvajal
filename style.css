@@ -4,21 +4,18 @@
   box-sizing: border-box;
 }
 
-/* Reset de estilos y configuraciones generales */
 body {
   font-family: "Arial", sans-serif;
   background-color: #e2dfdf;
   margin: 0;
 }
 
-/* Contenedor principal */
 .content {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Encabezado */
 h1 {
   color: #333;
 }
@@ -145,4 +142,94 @@ h1 {
   font-size: 20px;
   cursor: pointer;
   color: #333;
+}
+
+.card-producto img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+}
+
+.content {
+}
+
+/* Pantallas pequeñas */
+@media screen and (max-width: 480px) {
+  #carrito-seccion {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+    gap: 30px;
+  }
+}
+
+/* Pantallas medianas */
+@media screen and (max-width: 768px) {
+  .content {
+    max-width: 90%;
+  }
+  #listado-productos {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* Pantallas grandes */
+.content {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+@media screen and (min-width: 1201px) {
+  #listado-productos {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+}
+
+/* Pantallas entre 1201px y 1700px */
+@media screen and (min-width: 1201px) and (max-width: 1700px) {
+  #listado-productos {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; /* Agrega espacio entre las tarjetas */
+  }
+}
+
+/* Pantallas más grandes de 1701px */
+@media screen and (min-width: 1701px) {
+  #listado-productos {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Agrega espacio interno en las tarjetas de producto */
+.card-producto {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* .card-producto:hover {
+  transform: scale(1.05);
+} */
+
+.card-producto p {
+  margin: 0;
+}
+
+.card-producto button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.card-producto button:hover {
+  background-color: #45a049;
 }
