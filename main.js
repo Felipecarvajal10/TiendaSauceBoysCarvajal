@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       mensajeAgradecimiento.style.display = "none";
       vaciarCarrito();
-    }, 2000); // Oculta el mensaje después de x segundos
+    }, 2000); // Oculta el mensaje después de 2 segundos
   });
 
   function vaciarCarrito() {
