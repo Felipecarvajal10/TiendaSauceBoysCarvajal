@@ -153,8 +153,10 @@ h1 {
 /* Pantallas pequeñas */
 @media screen and (max-width: 480px) {
   #carrito-seccion {
-    position: static;
-    width: 100%;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    left: 10px;
     margin-top: 20px;
     gap: 30px;
   }
