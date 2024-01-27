@@ -1,3 +1,5 @@
+console.log(Swal);
+
 const productos = [
   { id: 1, name: "Gorra", price: 30, imagen: "gorra_amarilla.jpeg" },
   { id: 2, name: "Mochila", price: 80, imagen: "mochila.jpeg" },
@@ -95,18 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   pagarBtn.addEventListener("click", () => {
-    const mensajeAgradecimiento = document.getElementById(
-      "mensaje-agradecimiento"
-    );
-    mensajeAgradecimiento.style.display = "block";
-
-    setTimeout(() => {
-      mensajeAgradecimiento.style.display = "none";
-      vaciarCarrito();
-    }, 2000); // Oculta el mensaje después de 2 segundos
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Gracias por comprar en Sauce Boys",
+      showConfirmButton: false,
+      timer: 1500,
+    }).then(() => {
+      vaciarCarritoDirecto();
+    });
   });
 
-  function vaciarCarrito() {
+  function vaciarCarritoDirecto() {
     carrito = 0;
     productosEnCarrito = {};
     precioTotal = 0;
@@ -116,6 +118,27 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("precioTotal");
 
     actualizarCarrito();
+  }
+
+  function vaciarCarrito() {
+    Swal.fire({
+      title: "¿Está seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, bórralo!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        vaciarCarritoDirecto();
+        Swal.fire({
+          title: "¡Eliminado!",
+          text: "Su carrito ha sido eliminado.",
+          icon: "success",
+        });
+      }
+    });
   }
 
   function mostrarDetalles(producto) {
@@ -133,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function actualizarCarrito() {
     carritoCantidad.textContent = `Carrito: ${carrito} productos`;
 
-    // Actualizar el precio total en la interfaz
+    // Actualizar el precio totals
     const carritoTotalElement = document.getElementById("carrito-total");
     carritoTotalElement.textContent = precioTotal.toFixed(2);
 
