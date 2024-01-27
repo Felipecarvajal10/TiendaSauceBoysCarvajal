@@ -1,16 +1,5 @@
 console.log(Swal);
 
-const productos = [
-  { id: 1, name: "Gorra", price: 30, imagen: "gorra_amarilla.jpeg" },
-  { id: 2, name: "Mochila", price: 80, imagen: "mochila.jpeg" },
-  { id: 3, name: "Pañuelo", price: 40, imagen: "pañuelo.jpeg" },
-  { id: 4, name: "Camiseta", price: 25, imagen: "camiseta_negra.jpeg" },
-  { id: 5, name: "Cuaderno", price: 10, imagen: "cuaderno.jpeg" },
-  { id: 6, name: "Buzo", price: 70, imagen: "hoodie_negro.jpeg" },
-  { id: 7, name: "Cuadro", price: 40, imagen: "cuadro.png" },
-  { id: 8, name: "Gorro", price: 30, imagen: "gorro.png" },
-];
-
 document.addEventListener("DOMContentLoaded", () => {
   const listado = document.getElementById("listado-productos");
   const mensajeExito = document.getElementById("mensaje-exito");
@@ -33,64 +22,78 @@ document.addEventListener("DOMContentLoaded", () => {
 
   actualizarCarrito();
 
-  productos.forEach((producto) => {
-    const card = document.createElement("div");
-    card.className = "card-producto";
+  listado.textContent = "Cargando...";
+  fetch("https://justfields.com/project/pkv2Por2/json")
+    .then((res) => res.json())
+    .then((json) => {
+      const productos = json.store.products;
 
-    // Añadir la imagen
-    const imagenProducto = document.createElement("img");
-    imagenProducto.src = `assets/${producto.imagen}`;
-    imagenProducto.alt = producto.name;
-    card.appendChild(imagenProducto);
+      if (productos.length === 0) {
+        listado.textContent = "No hay productos";
+      }
 
-    const nombreProducto = document.createElement("p");
-    nombreProducto.textContent = producto.name;
+      listado.textContent = "";
 
-    nombreProducto.addEventListener("click", () => {
-      mostrarDetalles(producto);
-    });
+      productos.forEach((producto) => {
+        const card = document.createElement("div");
+        card.className = "card-producto";
 
-    const precioProducto = document.createElement("p");
-    precioProducto.textContent = `$ ${producto.price}`;
+        // Añadir la imagen
+        const imagenProducto = document.createElement("img");
+        imagenProducto.src = producto.image;
+        imagenProducto.alt = producto.name;
+        card.appendChild(imagenProducto);
 
-    const cartBoton = document.createElement("button");
-    cartBoton.textContent = "Añadir al carrito";
+        const nombreProducto = document.createElement("p");
+        nombreProducto.textContent = producto.name;
 
-    cartBoton.onclick = (function (producto) {
-      return function () {
-        mensajeExito.style.display = "block";
-        setTimeout(() => {
-          mensajeExito.style.display = "none";
-        }, 2000);
+        nombreProducto.addEventListener("click", () => {
+          mostrarDetalles(producto);
+        });
 
-        carrito++;
-        if (productosEnCarrito[producto.id]) {
-          productosEnCarrito[producto.id].cantidad++;
-        } else {
-          productosEnCarrito[producto.id] = { ...producto, cantidad: 1 };
-        }
+        const precioProducto = document.createElement("p");
+        precioProducto.textContent = `$ ${producto.price}`;
 
-        // Actualizar precio total
-        precioTotal += producto.price;
+        const cartBoton = document.createElement("button");
+        cartBoton.textContent = "Añadir al carrito";
 
-        localStorage.setItem("carrito", carrito);
-        localStorage.setItem(
-          "productosEnCarrito",
-          JSON.stringify(productosEnCarrito)
-        );
-        localStorage.setItem("precioTotal", precioTotal.toFixed(2));
+        cartBoton.onclick = (function (producto) {
+          return function () {
+            mensajeExito.style.display = "block";
+            setTimeout(() => {
+              mensajeExito.style.display = "none";
+            }, 2000);
 
-        actualizarCarrito();
-      };
-    })(producto);
+            carrito++;
+            if (productosEnCarrito[producto.id]) {
+              productosEnCarrito[producto.id].cantidad++;
+            } else {
+              productosEnCarrito[producto.id] = { ...producto, cantidad: 1 };
+            }
 
-    card.appendChild(imagenProducto);
-    card.appendChild(nombreProducto);
-    card.appendChild(precioProducto);
-    card.appendChild(cartBoton);
+            // Actualizar precio total
+            precioTotal += Number(producto.price);
 
-    listado.appendChild(card);
-  });
+            localStorage.setItem("carrito", carrito);
+            localStorage.setItem(
+              "productosEnCarrito",
+              JSON.stringify(productosEnCarrito)
+            );
+            localStorage.setItem("precioTotal", precioTotal.toFixed(2));
+
+            actualizarCarrito();
+          };
+        })(producto);
+
+        card.appendChild(imagenProducto);
+        card.appendChild(nombreProducto);
+        card.appendChild(precioProducto);
+        card.appendChild(cartBoton);
+
+        listado.appendChild(card);
+      });
+    })
+    .catch((error) => console.log("Hubo un error"));
 
   vaciarCarritoBtn.addEventListener("click", () => {
     vaciarCarrito();
